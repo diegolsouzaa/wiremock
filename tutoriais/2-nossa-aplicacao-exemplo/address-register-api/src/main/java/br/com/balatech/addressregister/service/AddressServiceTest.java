@@ -3,6 +3,7 @@ package br.com.balatech.addressregister.service;
 import br.com.balatech.addressregister.bean.ZipCodeResponse;
 import br.com.balatech.addressregister.config.CEPConfig;
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,9 +16,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import javax.swing.*;
 
+import java.util.Collections;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static java.util.Collections.get;
 
 
@@ -44,7 +48,8 @@ public class AddressServiceTest {
     }
     @Test
     public void listAddresByZipCodeSucess(){
-//        wireMockRule.stubFor(get(urlPathEqualTo("/ws/12345678/json").willReturn()))
+        stubFor(get(urlEqualTo("/ws/12345678/json")).willReturn(aResponse()));
+
         ZipCodeResponse zipCodeResponse = addressService.getAddressByZipCode("12345678");
         Assert.assertNotNull(zipCodeResponse);
 
